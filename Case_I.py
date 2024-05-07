@@ -222,20 +222,20 @@ for col in no_cols:
 # This function fills in missing values with median or mean
 
 def quick_missing_imp(data, num_method="median", cat_length=20, target="SalePrice"):
-    variables_with_na = [col for col in data.columns if data[col].isnull().sum() > 0]  # Eksik değere sahip olan değişkenler listelenir
+    variables_with_na = [col for col in data.columns if data[col].isnull().sum() > 0]  
 
     temp_target = data[target]
 
     print("# BEFORE")
-    print(data[variables_with_na].isnull().sum(), "\n\n")  # Uygulama öncesi değişkenlerin eksik değerlerinin sayısı
+    print(data[variables_with_na].isnull().sum(), "\n\n")  
 
-    # değişken object ve sınıf sayısı cat_lengthe eşit veya altındaysa boş değerleri mode ile doldur
+    
     data = data.apply(lambda x: x.fillna(x.mode()[0]) if (x.dtype == "O" and len(x.unique()) <= cat_length) else x, axis=0)
 
-    # num_method mean ise tipi object olmayan değişkenlerin boş değerleri ortalama ile dolduruluyor
+    
     if num_method == "mean":
         data = data.apply(lambda x: x.fillna(x.mean()) if x.dtype != "O" else x, axis=0)
-    # num_method median ise tipi object olmayan değişkenlerin boş değerleri ortalama ile dolduruluyor
+    
     elif num_method == "median":
         data = data.apply(lambda x: x.fillna(x.median()) if x.dtype != "O" else x, axis=0)
 
